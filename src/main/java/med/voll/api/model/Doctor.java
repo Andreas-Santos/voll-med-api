@@ -6,30 +6,37 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import med.voll.api.model.enums.Specialty;
+import med.voll.api.request.DoctorRequest;
 
+@Entity
+@Table(name = "doctors")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-
-@Entity
-@Table(name = "doctors")
 public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
-    String name;
-
-    String email;
-
-    String phone;
-
-    String crm;
+    private String name;
+    private String email;
+    private String phone;
+    private String crm;
 
     @Enumerated(EnumType.STRING)
-    Specialty specialty;
+    private Specialty specialty;
 
-    @OneToOne(mappedBy = "doctor")
-    Address address;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id")
+    private Address address;
+
+    public Doctor(DoctorRequest request) {
+        this.name = request.name();
+        this.email = request.email();
+        this.phone = request.phone();
+        this.crm = request.crm();
+        this.specialty = request.specialty();
+        this.address = new Address(request.address());
+    }
 }

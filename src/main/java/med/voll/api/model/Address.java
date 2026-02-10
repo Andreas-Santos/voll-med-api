@@ -5,33 +5,34 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import med.voll.api.request.AddressRequest;
 
+@Entity
+@Table(name = "addresses")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-
-@Entity
-@Table(name = "addresses")
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
-    String streetAddress;
+    private String streetAddress;
+    private Integer number;
+    private String additionalInformation;
+    private String neighborhood;
+    private String city;
+    private String state;
+    private String postalCode;
 
-    Integer number;
-
-    String additionalInformation;
-
-    String neighborhood;
-
-    String city;
-
-    String state;
-
-    String postalCode;
-
-    @OneToOne
-    Doctor doctor;
+    public Address(AddressRequest request) {
+        this.streetAddress = request.streetAddress();
+        this.number = request.number();
+        this.additionalInformation = request.additionalInformation();
+        this.neighborhood = request.neighborhood();
+        this.city = request.city();
+        this.state = request.state();
+        this.postalCode = request.postalCode();
+    }
 }
