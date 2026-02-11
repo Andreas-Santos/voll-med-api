@@ -1,10 +1,7 @@
 package med.voll.api.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import med.voll.api.model.enums.Specialty;
 import med.voll.api.request.DoctorRequest;
 
@@ -14,6 +11,7 @@ import med.voll.api.request.DoctorRequest;
 @NoArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode(of = "id")
 public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
