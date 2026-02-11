@@ -1,7 +1,8 @@
 package med.voll.api.controller;
 
 import jakarta.validation.Valid;
-import med.voll.api.dto.DoctorDTO;
+import med.voll.api.dto.Doctor.DoctorDTO;
+import med.voll.api.dto.Doctor.DoctorDetailDTO;
 import med.voll.api.request.DoctorRequest;
 import med.voll.api.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,11 @@ public class DoctorController {
     }
 
     @GetMapping
+    public List<DoctorDetailDTO> getDoctors() {
+        return doctorService.getDoctors();
+    }
+
+    @GetMapping("/top10")
     public List<DoctorDTO> getTop10DoctorsOrderedByNameAsc() {
         return doctorService.getTop10DoctorsOrderedByNameAsc();
     }

@@ -1,6 +1,5 @@
-package med.voll.api.dto;
+package med.voll.api.dto.Doctor;
 
-import med.voll.api.model.Address;
 import med.voll.api.model.enums.Specialty;
 
 public record DoctorDTO(

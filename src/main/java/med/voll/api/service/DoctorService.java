@@ -1,6 +1,7 @@
 package med.voll.api.service;
 
-import med.voll.api.dto.DoctorDTO;
+import med.voll.api.dto.Doctor.DoctorDTO;
+import med.voll.api.dto.Doctor.DoctorDetailDTO;
 import med.voll.api.model.Doctor;
 import med.voll.api.repository.DoctorRepository;
 import med.voll.api.request.DoctorRequest;
@@ -19,6 +20,17 @@ public class DoctorService {
         Doctor doctor = new Doctor(request);
 
         doctorRepository.save(doctor);
+    }
+
+    public List<DoctorDetailDTO> getDoctors() {
+        List<Doctor> doctors = doctorRepository.findAll();
+
+        List<DoctorDetailDTO> doctorDTOs = doctors.stream()
+                .map(d -> new DoctorDetailDTO(d.getId(), d.getName(), d.getEmail(),
+                        d.getPhone(),d.getCrm(), d.getSpecialty(), d.getAddress()))
+                .collect(Collectors.toList());
+
+        return doctorDTOs;
     }
 
     public List<DoctorDTO> getTop10DoctorsOrderedByNameAsc() {
