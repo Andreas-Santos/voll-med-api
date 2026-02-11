@@ -3,7 +3,7 @@ package med.voll.api.model;
 import jakarta.persistence.*;
 import lombok.*;
 import med.voll.api.model.enums.Specialty;
-import med.voll.api.request.DoctorRequest;
+import med.voll.api.request.Doctor.DoctorRequest;
 
 @Entity
 @Table(name = "doctors")

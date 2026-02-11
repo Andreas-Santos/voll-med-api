@@ -3,7 +3,8 @@ package med.voll.api.controller;
 import jakarta.validation.Valid;
 import med.voll.api.dto.Doctor.DoctorDTO;
 import med.voll.api.dto.Doctor.DoctorDetailDTO;
-import med.voll.api.request.DoctorRequest;
+import med.voll.api.request.Doctor.DoctorRequest;
+import med.voll.api.request.Doctor.UpdateDoctorRequest;
 import med.voll.api.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,5 +30,10 @@ public class DoctorController {
     @GetMapping("/top10")
     public List<DoctorDTO> getTop10DoctorsOrderedByNameAsc() {
         return doctorService.getTop10DoctorsOrderedByNameAsc();
+    }
+
+    @PutMapping("/{id}")
+    public void updateDoctor(@PathVariable Long id, @RequestBody UpdateDoctorRequest request) throws Exception {
+        doctorService.updateDoctor(id, request);
     }
 }
