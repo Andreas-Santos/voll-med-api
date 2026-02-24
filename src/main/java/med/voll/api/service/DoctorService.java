@@ -60,4 +60,16 @@ public class DoctorService {
 
         doctorRepository.save(doctor);
     }
+
+    public void deleteDoctor(Long id) throws Exception {
+        Optional<Doctor> doctorOptional = doctorRepository.findById(id);
+
+        if(doctorOptional.isEmpty()) {
+            throw new Exception("Não existe doutor com esse id!");
+        }
+
+        Doctor doctor = doctorOptional.get();
+
+        doctorRepository.delete(doctor);
+    }
 }

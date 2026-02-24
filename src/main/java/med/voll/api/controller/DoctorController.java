@@ -1,5 +1,6 @@
 package med.voll.api.controller;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import med.voll.api.dto.Doctor.DoctorDTO;
 import med.voll.api.dto.Doctor.DoctorDetailDTO;
@@ -18,6 +19,7 @@ public class DoctorController {
     DoctorService doctorService;
 
     @PostMapping
+    @Transactional
     public void registerDoctor(@RequestBody @Valid DoctorRequest request) {
         doctorService.registerDoctor(request);
     }
@@ -33,7 +35,14 @@ public class DoctorController {
     }
 
     @PutMapping("/{id}")
+    @Transactional
     public void updateDoctor(@PathVariable Long id, @RequestBody UpdateDoctorRequest request) throws Exception {
         doctorService.updateDoctor(id, request);
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void deleteDoctor(@PathVariable Long id) throws Exception {
+        doctorService.deleteDoctor(id);
     }
 }
