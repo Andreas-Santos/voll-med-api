@@ -28,9 +28,7 @@ public class DoctorService {
         List<Doctor> doctors = doctorRepository.findAll();
 
         List<DoctorDetailDTO> doctorDTOs = doctors.stream()
-                .map(d -> new DoctorDetailDTO(d.getId(), d.getName(), d.getEmail(),
-                        d.getPhone(),d.getCrm(), d.getSpecialty(), d.getAddress()))
-                .collect(Collectors.toList());
+                .map(DoctorDetailDTO::new).toList();
 
         return doctorDTOs;
     }
@@ -39,8 +37,7 @@ public class DoctorService {
         List<Doctor> doctors = doctorRepository.findTop10ByOrderByNameAsc();
 
         List<DoctorDTO> doctorDTOS = doctors.stream()
-                .map(d -> new DoctorDTO(d.getName(), d.getEmail(), d.getCrm(), d.getSpecialty()))
-                .collect(Collectors.toList());
+                .map(DoctorDTO::new).toList();
 
         return doctorDTOS;
     }
