@@ -11,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,15 +28,6 @@ public class DoctorService {
         Page<Doctor> doctors = doctorRepository.findAll(pagination);
 
         return doctors.map(DoctorDetailDTO::new);
-    }
-
-    public List<DoctorDTO> getTop10DoctorsOrderedByNameAsc() {
-        List<Doctor> doctors = doctorRepository.findTop10ByOrderByNameAsc();
-
-        List<DoctorDTO> doctorDTOS = doctors.stream()
-                .map(DoctorDTO::new).toList();
-
-        return doctorDTOS;
     }
 
     public void updateDoctor(Long id, UpdateDoctorRequest request) throws Exception {

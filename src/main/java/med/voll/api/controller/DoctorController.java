@@ -31,11 +31,6 @@ public class DoctorController {
         return doctorService.getDoctors(pagination);
     }
 
-    @GetMapping("/top10")
-    public List<DoctorDTO> getTop10DoctorsOrderedByNameAsc() {
-        return doctorService.getTop10DoctorsOrderedByNameAsc();
-    }
-
     @PutMapping("/{id}")
     @Transactional
     public void updateDoctor(@PathVariable Long id, @RequestBody UpdateDoctorRequest request) throws Exception {
