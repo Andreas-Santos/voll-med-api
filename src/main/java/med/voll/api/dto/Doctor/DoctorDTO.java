@@ -4,6 +4,7 @@ import med.voll.api.model.Doctor;
 import med.voll.api.model.enums.Specialty;
 
 public record DoctorDTO(
+        Long id,
         String name,
         String email,
         String crm,
@@ -11,6 +12,6 @@ public record DoctorDTO(
 ) {
 
     public DoctorDTO(Doctor doctor) {
-        this(doctor.getName(), doctor.getEmail(), doctor.getCrm(), doctor.getSpecialty());
+        this(doctor.getId(), doctor.getName(), doctor.getEmail(), doctor.getCrm(), doctor.getSpecialty());
     }
 }

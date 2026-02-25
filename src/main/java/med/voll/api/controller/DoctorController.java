@@ -3,16 +3,14 @@ package med.voll.api.controller;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import med.voll.api.dto.Doctor.DoctorDTO;
-import med.voll.api.dto.Doctor.DoctorDetailDTO;
 import med.voll.api.request.Doctor.DoctorRequest;
 import med.voll.api.request.Doctor.UpdateDoctorRequest;
 import med.voll.api.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/doctors")
@@ -27,7 +25,7 @@ public class DoctorController {
     }
 
     @GetMapping
-    public Page<DoctorDetailDTO> getDoctors(Pageable pagination) {
+    public Page<DoctorDTO> getDoctors(@PageableDefault(size = 10, sort = {"name"}) Pageable pagination) {
         return doctorService.getDoctors(pagination);
     }
 

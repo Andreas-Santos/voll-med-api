@@ -1,7 +1,6 @@
 package med.voll.api.service;
 
 import med.voll.api.dto.Doctor.DoctorDTO;
-import med.voll.api.dto.Doctor.DoctorDetailDTO;
 import med.voll.api.model.Doctor;
 import med.voll.api.repository.DoctorRepository;
 import med.voll.api.request.Doctor.DoctorRequest;
@@ -24,10 +23,10 @@ public class DoctorService {
         doctorRepository.save(doctor);
     }
 
-    public Page<DoctorDetailDTO> getDoctors(Pageable pagination) {
+    public Page<DoctorDTO> getDoctors(Pageable pagination) {
         Page<Doctor> doctors = doctorRepository.findAll(pagination);
 
-        return doctors.map(DoctorDetailDTO::new);
+        return doctors.map(DoctorDTO::new);
     }
 
     public void updateDoctor(Long id, UpdateDoctorRequest request) throws Exception {
