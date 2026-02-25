@@ -8,6 +8,8 @@ import med.voll.api.request.Doctor.DoctorRequest;
 import med.voll.api.request.Doctor.UpdateDoctorRequest;
 import med.voll.api.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,8 +27,8 @@ public class DoctorController {
     }
 
     @GetMapping
-    public List<DoctorDetailDTO> getDoctors() {
-        return doctorService.getDoctors();
+    public Page<DoctorDetailDTO> getDoctors(Pageable pagination) {
+        return doctorService.getDoctors(pagination);
     }
 
     @GetMapping("/top10")

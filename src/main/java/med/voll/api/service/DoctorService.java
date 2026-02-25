@@ -7,6 +7,8 @@ import med.voll.api.repository.DoctorRepository;
 import med.voll.api.request.Doctor.DoctorRequest;
 import med.voll.api.request.Doctor.UpdateDoctorRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,13 +25,10 @@ public class DoctorService {
         doctorRepository.save(doctor);
     }
 
-    public List<DoctorDetailDTO> getDoctors() {
-        List<Doctor> doctors = doctorRepository.findAll();
+    public Page<DoctorDetailDTO> getDoctors(Pageable pagination) {
+        Page<Doctor> doctors = doctorRepository.findAll(pagination);
 
-        List<DoctorDetailDTO> doctorDTOs = doctors.stream()
-                .map(DoctorDetailDTO::new).toList();
-
-        return doctorDTOs;
+        return doctors.map(DoctorDetailDTO::new);
     }
 
     public List<DoctorDTO> getTop10DoctorsOrderedByNameAsc() {
