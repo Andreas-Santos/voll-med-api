@@ -36,4 +36,10 @@ public class PatientController {
     public void updatePatient(@PathVariable Long id, @RequestBody @Valid UpdatePatientRequest request) throws Exception{
         patientService.updatePatient(id, request);
     }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void deletePatient(@PathVariable Long id) throws Exception {
+        patientService.deletePatient(id);
+    }
 }

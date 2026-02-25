@@ -42,4 +42,14 @@ public class PatientService {
 
         patientRepository.save(patient);
     }
+
+    public void deletePatient(Long id) throws Exception {
+        Optional<Patient> patient = patientRepository.findById(id);
+
+        if(patient.isEmpty()) {
+            throw new Exception("Não existe paciente com esse id!");
+        }
+
+        patientRepository.deleteById(id);
+    }
 }
