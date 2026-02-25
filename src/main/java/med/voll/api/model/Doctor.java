@@ -42,8 +42,11 @@ public class Doctor {
     public void updateDoctor(UpdateDoctorRequest request) {
         if(request.name() != null) setName(request.name());
 
-        if(request.phone() != null) setPhone(request.phone());
+        if(request.phone() != null);
 
-        if(request.address() != null) setAddress(request.address());
+        if(request.address() != null) {
+            Address address = new Address(request.address());
+            setAddress(address);
+        }
     }
 }

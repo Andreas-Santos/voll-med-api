@@ -3,6 +3,7 @@ package med.voll.api.model;
 import jakarta.persistence.*;
 import lombok.*;
 import med.voll.api.request.Patient.PatientRequest;
+import med.voll.api.request.Patient.UpdatePatientRequest;
 
 @Entity
 @Table(name = "patients")
@@ -31,5 +32,16 @@ public class Patient {
         this.phone = request.phone();
         this.cpf = request.cpf();
         this.address = new Address(request.address());
+    }
+
+    public void updatePatient(UpdatePatientRequest request) {
+        if(request.name() != null) setName(request.name());
+
+        if(request.phone() != null) setPhone(request.phone());
+
+        if(request.address() != null) {
+            Address address = new Address(request.address());
+            setAddress(address);
+        }
     }
 }
