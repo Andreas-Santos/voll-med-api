@@ -38,9 +38,7 @@ public class DoctorService {
 
         Doctor doctor = doctorOptional.get();
 
-        doctor.setName(request.name());
-        doctor.setPhone(request.phone());
-        doctor.setAddress(request.address());
+        doctor.updateDoctor(request);
 
         doctorRepository.save(doctor);
     }

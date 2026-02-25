@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import med.voll.api.model.enums.Specialty;
 import med.voll.api.request.Doctor.DoctorRequest;
+import med.voll.api.request.Doctor.UpdateDoctorRequest;
 
 @Entity
 @Table(name = "doctors")
@@ -36,5 +37,13 @@ public class Doctor {
         this.crm = request.crm();
         this.specialty = request.specialty();
         this.address = new Address(request.address());
+    }
+
+    public void updateDoctor(UpdateDoctorRequest request) {
+        if(request.name() != null) setName(request.name());
+
+        if(request.phone() != null) setPhone(request.phone());
+
+        if(request.address() != null) setAddress(request.address());
     }
 }
