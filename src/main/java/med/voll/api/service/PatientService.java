@@ -1,6 +1,7 @@
 package med.voll.api.service;
 
 import med.voll.api.dto.Patient.PatientDTO;
+import med.voll.api.exception.PatientNotFoundException;
 import med.voll.api.model.Patient;
 import med.voll.api.repository.PatientRepository;
 import med.voll.api.dto.Patient.PatientRequest;
@@ -33,7 +34,7 @@ public class PatientService {
         Optional<Patient> patientOptional = patientRepository.findById(id);
 
         if(patientOptional.isEmpty()) {
-            throw new Exception("Não existe paciente com esse id!");
+            throw new PatientNotFoundException("Não existe paciente com esse id!");
         }
 
         Patient patient = patientOptional.get();
@@ -47,7 +48,7 @@ public class PatientService {
         Optional<Patient> patientOptional = patientRepository.findById(id);
 
         if(patientOptional.isEmpty()) {
-            throw new Exception("Não existe paciente com esse id!");
+            throw new PatientNotFoundException("Não existe paciente com esse id!");
         }
 
         Patient patient = patientOptional.get();

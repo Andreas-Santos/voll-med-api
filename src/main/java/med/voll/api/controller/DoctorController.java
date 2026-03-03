@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,8 +22,10 @@ public class DoctorController {
 
     @PostMapping
     @Transactional
-    public void registerDoctor(@RequestBody @Valid DoctorRequest request) {
+    public ResponseEntity<String> registerDoctor(@RequestBody @Valid DoctorRequest request) {
         doctorService.registerDoctor(request);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body("Médico cadastrado com sucesso!");
     }
 
     @GetMapping
@@ -31,13 +35,17 @@ public class DoctorController {
 
     @PutMapping("/{id}")
     @Transactional
-    public void updateDoctor(@PathVariable Long id, @RequestBody UpdateDoctorRequest request) throws Exception {
+    public ResponseEntity<String> updateDoctor(@PathVariable Long id, @RequestBody UpdateDoctorRequest request) throws Exception {
         doctorService.updateDoctor(id, request);
+
+        return ResponseEntity.status(HttpStatus.OK).body("Médico alterado com sucesso!");
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    public void deleteDoctor(@PathVariable Long id) throws Exception {
+    public ResponseEntity<String> deleteDoctor(@PathVariable Long id) throws Exception {
         doctorService.deleteDoctor(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body("Médico deletado com sucesso!");
     }
 }

@@ -1,5 +1,7 @@
 package med.voll.api.exception;
 
+import med.voll.api.model.Doctor;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,6 +14,28 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ResponseError> handlerGeneralException(Exception ex) {
+        ResponseError response = new ResponseError(
+                ex.getMessage(),
+                HttpStatus.BAD_REQUEST,
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(PatientNotFoundException.class)
+    public ResponseEntity<ResponseError> handlerPatientNotFoundException(PatientNotFoundException ex) {
+        ResponseError response = new ResponseError(
+                ex.getMessage(),
+                HttpStatus.BAD_REQUEST,
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(DoctorNotFoundException.class)
+    public ResponseEntity<ResponseError> handlerDoctorNotFoundException(DoctorNotFoundException ex) {
         ResponseError response = new ResponseError(
                 ex.getMessage(),
                 HttpStatus.BAD_REQUEST,
