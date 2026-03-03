@@ -21,6 +21,7 @@ public class Patient {
     private String email;
     private String phone;
     private String cpf;
+    private Boolean active = true;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
@@ -43,5 +44,9 @@ public class Patient {
             Address address = new Address(request.address());
             setAddress(address);
         }
+    }
+
+    public void inactivatePatient() {
+        active = false;
     }
 }

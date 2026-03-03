@@ -44,12 +44,14 @@ public class PatientService {
     }
 
     public void deletePatient(Long id) throws Exception {
-        Optional<Patient> patient = patientRepository.findById(id);
+        Optional<Patient> patientOptional = patientRepository.findById(id);
 
-        if(patient.isEmpty()) {
+        if(patientOptional.isEmpty()) {
             throw new Exception("Não existe paciente com esse id!");
         }
 
-        patientRepository.deleteById(id);
+        Patient patient = patientOptional.get();
+
+        patient.inactivatePatient();
     }
 }
