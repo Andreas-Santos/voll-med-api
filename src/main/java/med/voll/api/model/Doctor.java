@@ -22,6 +22,7 @@ public class Doctor {
     private String email;
     private String phone;
     private String crm;
+    private Boolean active = true;
 
     @Enumerated(EnumType.STRING)
     private Specialty specialty;
@@ -48,5 +49,9 @@ public class Doctor {
             Address address = new Address(request.address());
             setAddress(address);
         }
+    }
+
+    public void inactivateDoctor() {
+        active = false;
     }
 }

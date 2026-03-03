@@ -52,6 +52,6 @@ public class DoctorService {
 
         Doctor doctor = doctorOptional.get();
 
-        doctorRepository.delete(doctor);
+        doctor.inactivateDoctor();
     }
 }
