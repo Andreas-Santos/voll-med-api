@@ -1,9 +1,9 @@
-package med.voll.api.request.Patient;
+package med.voll.api.dto.Patient;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import med.voll.api.request.AddressRequest;
+import med.voll.api.dto.AddressRequest;
 
 public record PatientRequest(
         @NotBlank(message = "Nome é obrigatório!")

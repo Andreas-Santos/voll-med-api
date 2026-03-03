@@ -1,9 +1,9 @@
-package med.voll.api.request.Doctor;
+package med.voll.api.dto.Patient;
 
 import jakarta.validation.Valid;
-import med.voll.api.request.AddressRequest;
+import med.voll.api.dto.AddressRequest;
 
-public record UpdateDoctorRequest(
+public record UpdatePatientRequest(
         String name,
         String phone,
 

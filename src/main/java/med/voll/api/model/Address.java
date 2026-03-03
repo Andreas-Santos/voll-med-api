@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import med.voll.api.request.AddressRequest;
+import med.voll.api.dto.AddressRequest;
 
 @Entity
 @Table(name = "addresses")

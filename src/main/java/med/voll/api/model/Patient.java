@@ -2,8 +2,8 @@ package med.voll.api.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import med.voll.api.request.Patient.PatientRequest;
-import med.voll.api.request.Patient.UpdatePatientRequest;
+import med.voll.api.dto.Patient.PatientRequest;
+import med.voll.api.dto.Patient.UpdatePatientRequest;
 
 @Entity
 @Table(name = "patients")

@@ -1,11 +1,11 @@
-package med.voll.api.request.Doctor;
+package med.voll.api.dto.Doctor;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import med.voll.api.model.enums.Specialty;
-import med.voll.api.request.AddressRequest;
+import med.voll.api.dto.AddressRequest;
 
 public record DoctorRequest(
     @NotBlank(message = "Nome é obrigatório!")

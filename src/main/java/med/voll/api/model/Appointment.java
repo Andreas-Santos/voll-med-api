@@ -21,5 +21,5 @@ public class Appointment {
 
     private Doctor doctor;
 
-    private LocalDateTime data;
+    private LocalDateTime date;
 }
