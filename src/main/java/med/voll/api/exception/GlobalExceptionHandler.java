@@ -79,4 +79,15 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
+
+    @ExceptionHandler(DoctorHasAppointmentException.class)
+    public ResponseEntity<ResponseError> handlerDoctorHasAppointmentException(DoctorHasAppointmentException ex) {
+        ResponseError response = new ResponseError(
+                ex.getMessage(),
+                HttpStatus.BAD_REQUEST,
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
 }
