@@ -33,6 +33,11 @@ public class AppointmentService {
     AppointmentRepository appointmentRepository;
 
     public void registerAppointment(AppointmentRequest request) throws Exception {
+        validators.forEach(v -> v.validate(request));
+
+        Patient patient = patientOptional.get();
+        Doctor doctor = doctorOptional.get();
+
         appointmentRepository.save(new Appointment(patient, doctor, request.date()));
     }
 }

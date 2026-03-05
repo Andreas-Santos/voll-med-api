@@ -44,4 +44,17 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
+
+    @ExceptionHandler(InvalidAppointmentDatetimeException.class)
+    public ResponseEntity<ResponseError> handlerInvalidAppointmentDatetimeException(
+            InvalidAppointmentDatetimeException ex
+    ) {
+        ResponseError response = new ResponseError(
+                ex.getMessage(),
+                HttpStatus.BAD_REQUEST,
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
 }
