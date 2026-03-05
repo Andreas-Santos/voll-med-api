@@ -110,4 +110,26 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
+
+    @ExceptionHandler(AppointmentNotFoundException.class)
+    public ResponseEntity<ResponseError> handlerAppointmentNotFoundException(AppointmentNotFoundException ex) {
+        ResponseError response = new ResponseError(
+                ex.getMessage(),
+                HttpStatus.NOT_FOUND,
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(AppointmentAlreadyCanceledException.class)
+    public ResponseEntity<ResponseError> handlerAppointmentAlreadyCanceledException(AppointmentAlreadyCanceledException ex) {
+        ResponseError response = new ResponseError(
+                ex.getMessage(),
+                HttpStatus.BAD_REQUEST,
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
 }

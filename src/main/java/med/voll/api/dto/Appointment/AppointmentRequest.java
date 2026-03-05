@@ -1,4 +1,4 @@
-package med.voll.api.dto;
+package med.voll.api.dto.Appointment;
 
 import jakarta.validation.constraints.NotNull;
 

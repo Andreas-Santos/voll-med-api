@@ -19,6 +19,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
                 a.doctor.id = :doctorId
                 AND a.date < :endDate
                 AND a.date > :startDate
+                AND a.canceled = false
         """)
     boolean doctorHasAppointment(Long doctorId, LocalDateTime startDate, LocalDateTime endDate);
 
@@ -32,6 +33,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
                 a.patient.id = :patientId
             AND a.date > :startOfDay
             AND a.date < :endOfDay
+            AND a.canceled = false
         """
     )
     boolean patientHasAppointmentThatDay(Long patientId, LocalDateTime startOfDay, LocalDateTime endOfDay);

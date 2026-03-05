@@ -1,6 +1,6 @@
 package med.voll.api.validator.Appointment;
 
-import med.voll.api.dto.AppointmentRequest;
+import med.voll.api.dto.Appointment.AppointmentRequest;
 import med.voll.api.exception.DoctorHasAppointmentException;
 import med.voll.api.repository.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package med.voll.api.validator.Appointment;
 
-import med.voll.api.dto.AppointmentRequest;
+import med.voll.api.dto.Appointment.AppointmentRequest;
 import med.voll.api.exception.InvalidAppointmentDatetimeException;
 import org.springframework.stereotype.Component;
 

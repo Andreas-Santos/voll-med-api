@@ -25,6 +25,7 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
                             a.doctor.id = d.id
                         AND a.date < :endDate
                         AND a.date > :startDate
+                        AND a.canceled = false
                 )
         """)
     List<Doctor> findFirstAvailableDoctor(LocalDateTime startDate, LocalDateTime endDate);

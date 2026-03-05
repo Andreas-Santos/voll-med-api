@@ -1,6 +1,7 @@
 package med.voll.api.service;
 
-import med.voll.api.dto.AppointmentRequest;
+import med.voll.api.dto.Appointment.AppointmentCancelRequest;
+import med.voll.api.dto.Appointment.AppointmentRequest;
 import med.voll.api.exception.*;
 import med.voll.api.model.Appointment;
 import med.voll.api.model.Doctor;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AppointmentService {
@@ -62,5 +64,21 @@ public class AppointmentService {
         validators.forEach(v -> v.validate(request));
 
         appointmentRepository.save(new Appointment(patient, doctor, request.date()));
+    }
+
+    public void cancelAppointment(Long id, AppointmentCancelRequest request) {
+        Optional<Appointment> appointmentOptional = appointmentRepository.findById(id);
+
+        if(appointmentOptional.isEmpty()) {
+            throw new AppointmentNotFoundException("Não existe consulta com esse id!");
+        }
+
+        Appointment appointment = appointmentOptional.get();
+
+        if(appointment.getCanceled() == true) {
+            throw new AppointmentAlreadyCanceledException("Essa consulta já foi cancelada!");
+        }
+
+        appointment.cancelAppointment(request);
     }
 }
