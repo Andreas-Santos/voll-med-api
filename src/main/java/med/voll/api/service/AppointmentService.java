@@ -2,6 +2,7 @@ package med.voll.api.service;
 
 import med.voll.api.dto.AppointmentRequest;
 import med.voll.api.exception.DoctorNotFoundException;
+import med.voll.api.exception.PatientInactiveException;
 import med.voll.api.exception.PatientNotFoundException;
 import med.voll.api.model.Appointment;
 import med.voll.api.model.Doctor;
@@ -36,6 +37,10 @@ public class AppointmentService {
         Optional<Patient> patientOptional = patientRepository.findById(request.patient());
         if(patientOptional.isEmpty()) {
             throw new PatientNotFoundException("Não existe paciente com esse id!");
+        }
+
+        if(patientOptional.get().getActive() == false) {
+            throw new PatientInactiveException("Paciente inativo");
         }
 
         Optional<Doctor> doctorOptional = doctorRepository.findById(request.doctor());

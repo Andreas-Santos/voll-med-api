@@ -27,15 +27,28 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseError> handlerPatientNotFoundException(PatientNotFoundException ex) {
         ResponseError response = new ResponseError(
                 ex.getMessage(),
-                HttpStatus.BAD_REQUEST,
+                HttpStatus.NOT_FOUND,
                 LocalDateTime.now()
         );
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
     @ExceptionHandler(DoctorNotFoundException.class)
     public ResponseEntity<ResponseError> handlerDoctorNotFoundException(DoctorNotFoundException ex) {
+        ResponseError response = new ResponseError(
+                ex.getMessage(),
+                HttpStatus.NOT_FOUND,
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(InvalidAppointmentDatetimeException.class)
+    public ResponseEntity<ResponseError> handlerInvalidAppointmentDatetimeException(
+            InvalidAppointmentDatetimeException ex
+    ) {
         ResponseError response = new ResponseError(
                 ex.getMessage(),
                 HttpStatus.BAD_REQUEST,
@@ -45,10 +58,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
-    @ExceptionHandler(InvalidAppointmentDatetimeException.class)
-    public ResponseEntity<ResponseError> handlerInvalidAppointmentDatetimeException(
-            InvalidAppointmentDatetimeException ex
-    ) {
+    @ExceptionHandler(PatientInactiveException.class)
+    public ResponseEntity<ResponseError> handlerPatientInactiveException(PatientInactiveException ex) {
         ResponseError response = new ResponseError(
                 ex.getMessage(),
                 HttpStatus.BAD_REQUEST,
