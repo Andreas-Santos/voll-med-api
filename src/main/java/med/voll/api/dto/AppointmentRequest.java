@@ -8,10 +8,10 @@ import java.time.LocalDateTime;
 public record AppointmentRequest(
         @NotNull(message = "O id do paciente é obrigatório!")
         Long patient,
-        
+
         Long doctor,
 
-        @NotBlank
+        @NotNull(message = "A data da consulta é obrigatória!")
         LocalDateTime date
 ) {
 }

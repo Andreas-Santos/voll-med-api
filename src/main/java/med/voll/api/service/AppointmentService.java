@@ -53,7 +53,7 @@ public class AppointmentService {
 
             doctor = doctorRepository
                     .findFirstAvailableDoctor(start, end)
-                    .orElseThrow(() -> new DoctorNotFoundException("Nenhum médico disponível nesse horário"));
+                    .orElseThrow(() -> new NoDoctorAvailableException("Nenhum médico disponível nesse horário"));
         }
 
         if(!doctor.getActive()) {
