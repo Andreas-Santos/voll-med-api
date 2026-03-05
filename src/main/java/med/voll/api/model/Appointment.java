@@ -2,6 +2,7 @@ package med.voll.api.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import med.voll.api.dto.AppointmentRequest;
 
 import java.time.LocalDateTime;
 
@@ -22,4 +23,10 @@ public class Appointment {
     private Doctor doctor;
 
     private LocalDateTime date;
+
+    public Appointment(Patient patient, Doctor doctor, LocalDateTime date) {
+        this.patient = patient;
+        this.doctor = doctor;
+        this.date = date;
+    }
 }
