@@ -1,6 +1,7 @@
 package med.voll.api.service;
 
 import med.voll.api.dto.AppointmentRequest;
+import med.voll.api.exception.DoctorInactiveException;
 import med.voll.api.exception.DoctorNotFoundException;
 import med.voll.api.exception.PatientInactiveException;
 import med.voll.api.exception.PatientNotFoundException;
@@ -14,7 +15,6 @@ import med.voll.api.validator.Appointment.AppointmentValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,19 +33,23 @@ public class AppointmentService {
     @Autowired
     AppointmentRepository appointmentRepository;
 
-    public void registerAppointment(AppointmentRequest request) throws Exception {
+    public void registerAppointment(AppointmentRequest request){
         Optional<Patient> patientOptional = patientRepository.findById(request.patient());
         if(patientOptional.isEmpty()) {
             throw new PatientNotFoundException("Não existe paciente com esse id!");
         }
 
         if(patientOptional.get().getActive() == false) {
-            throw new PatientInactiveException("Paciente inativo");
+            throw new PatientInactiveException("Paciente inativo!");
         }
 
         Optional<Doctor> doctorOptional = doctorRepository.findById(request.doctor());
         if(doctorOptional.isEmpty()) {
             throw new DoctorNotFoundException("Não existe médico com esse id!");
+        }
+
+        if(doctorOptional.get().getActive() == false) {
+            throw new DoctorInactiveException("Médico inativo!");
         }
 
         validators.forEach(v -> v.validate(request));
