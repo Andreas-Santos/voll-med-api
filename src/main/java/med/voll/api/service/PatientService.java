@@ -1,6 +1,7 @@
 package med.voll.api.service;
 
 import med.voll.api.dto.Patient.PatientDTO;
+import med.voll.api.exception.PatientInactiveException;
 import med.voll.api.exception.PatientNotFoundException;
 import med.voll.api.model.Patient;
 import med.voll.api.repository.PatientRepository;
@@ -52,6 +53,10 @@ public class PatientService {
         }
 
         Patient patient = patientOptional.get();
+
+        if(patient.getActive() == false) {
+            throw new PatientInactiveException("Esse paciente já foi excluído!");
+        }
 
         patient.inactivatePatient();
     }

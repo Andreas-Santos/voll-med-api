@@ -1,6 +1,7 @@
 package med.voll.api.service;
 
 import med.voll.api.dto.Doctor.DoctorDTO;
+import med.voll.api.exception.DoctorInactiveException;
 import med.voll.api.exception.DoctorNotFoundException;
 import med.voll.api.model.Doctor;
 import med.voll.api.repository.DoctorRepository;
@@ -52,6 +53,10 @@ public class DoctorService {
         }
 
         Doctor doctor = doctorOptional.get();
+
+        if(doctor.getActive() == false) {
+            throw new DoctorInactiveException("Esse médico já foi excluído!");
+        }
 
         doctor.inactivateDoctor();
     }
