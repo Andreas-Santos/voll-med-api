@@ -1,7 +1,5 @@
 package med.voll.api.exception;
 
-import med.voll.api.model.Doctor;
-import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

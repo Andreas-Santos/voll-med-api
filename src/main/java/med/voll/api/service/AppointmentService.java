@@ -10,7 +10,6 @@ import med.voll.api.repository.DoctorRepository;
 import med.voll.api.repository.PatientRepository;
 import med.voll.api.validator.Appointment.AppointmentValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

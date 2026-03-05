@@ -6,7 +6,6 @@ import med.voll.api.dto.Patient.PatientDTO;
 import med.voll.api.dto.Patient.PatientRequest;
 import med.voll.api.dto.Patient.UpdatePatientRequest;
 import med.voll.api.service.PatientService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
