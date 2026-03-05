@@ -14,8 +14,12 @@ public class DoctorIsFreeValidator implements AppointmentValidator {
     AppointmentRepository appointmentRepository;
 
     public void validate(AppointmentRequest request) {
-        LocalDateTime start = request.date();
-        LocalDateTime end = start.plusHours(1);
+        if (request.doctor() == null) {
+            return;
+        }
+
+        LocalDateTime start = request.date().minusHours(1);
+        LocalDateTime end = start.plusHours(2);
 
         boolean doctorHasAppointment = appointmentRepository.doctorHasAppointment(
                 request.doctor(),

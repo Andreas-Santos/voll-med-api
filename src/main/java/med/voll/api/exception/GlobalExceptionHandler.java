@@ -90,6 +90,18 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
+
+    @ExceptionHandler(PatientHasAppointmentException.class)
+    public ResponseEntity<ResponseError> handlerPatientHasAppointmentException(PatientHasAppointmentException ex) {
+        ResponseError response = new ResponseError(
+                ex.getMessage(),
+                HttpStatus.BAD_REQUEST,
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
     @ExceptionHandler(NoDoctorAvailableException.class)
     public ResponseEntity<ResponseError> handlerNoDoctorAvailableException(NoDoctorAvailableException ex) {
         ResponseError response = new ResponseError(

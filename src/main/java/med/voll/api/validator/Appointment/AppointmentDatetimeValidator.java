@@ -21,9 +21,9 @@ public class AppointmentDatetimeValidator implements AppointmentValidator {
             );
         }
 
-        if(request.date().isAfter(LocalDateTime.now().minusMinutes(30))) {
+        if (request.date().isBefore(LocalDateTime.now().plusMinutes(30))) {
             throw new InvalidAppointmentDatetimeException(
-                    "A antecedência miníma de agendamento de uma consulta é de 30 minutos"
+                    "A antecedência mínima de agendamento de uma consulta é de 30 minutos"
             );
         }
     }

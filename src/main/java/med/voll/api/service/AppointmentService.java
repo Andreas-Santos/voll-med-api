@@ -1,10 +1,7 @@
 package med.voll.api.service;
 
 import med.voll.api.dto.AppointmentRequest;
-import med.voll.api.exception.DoctorInactiveException;
-import med.voll.api.exception.DoctorNotFoundException;
-import med.voll.api.exception.PatientInactiveException;
-import med.voll.api.exception.PatientNotFoundException;
+import med.voll.api.exception.*;
 import med.voll.api.model.Appointment;
 import med.voll.api.model.Doctor;
 import med.voll.api.model.Patient;
@@ -13,6 +10,7 @@ import med.voll.api.repository.DoctorRepository;
 import med.voll.api.repository.PatientRepository;
 import med.voll.api.validator.Appointment.AppointmentValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -48,11 +46,13 @@ public class AppointmentService {
                     .orElseThrow(() -> new DoctorNotFoundException("Não existe médico com esse id!"));
         }
         else {
-            LocalDateTime start = request.date();
-            LocalDateTime end = start.plusHours(1);
+            LocalDateTime start = request.date().minusHours(1);
+            LocalDateTime end = start.plusHours(2);
 
             doctor = doctorRepository
                     .findFirstAvailableDoctor(start, end)
+                    .stream()
+                    .findFirst()
                     .orElseThrow(() -> new NoDoctorAvailableException("Nenhum médico disponível nesse horário"));
         }
 

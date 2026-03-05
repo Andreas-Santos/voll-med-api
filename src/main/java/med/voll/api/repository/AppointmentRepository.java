@@ -21,4 +21,18 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
                 AND a.date > :startDate
         """)
     boolean doctorHasAppointment(Long doctorId, LocalDateTime startDate, LocalDateTime endDate);
+
+    @Query(
+        """
+            SELECT
+                COUNT(a) > 0
+            FROM
+                Appointment a
+            WHERE
+                a.patient.id = :patientId
+            AND a.date > :startOfDay
+            AND a.date < :endOfDay
+        """
+    )
+    boolean patientHasAppointmentThatDay(Long patientId, LocalDateTime startOfDay, LocalDateTime endOfDay);
 }
