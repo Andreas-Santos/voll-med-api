@@ -33,6 +33,16 @@ public class AppointmentService {
     AppointmentRepository appointmentRepository;
 
     public void registerAppointment(AppointmentRequest request) throws Exception {
+        Optional<Patient> patientOptional = patientRepository.findById(request.patient());
+        if(patientOptional.isEmpty()) {
+            throw new PatientNotFoundException("Não existe paciente com esse id!");
+        }
+
+        Optional<Doctor> doctorOptional = doctorRepository.findById(request.doctor());
+        if(doctorOptional.isEmpty()) {
+            throw new DoctorNotFoundException("Não existe médico com esse id!");
+        }
+
         validators.forEach(v -> v.validate(request));
 
         Patient patient = patientOptional.get();
