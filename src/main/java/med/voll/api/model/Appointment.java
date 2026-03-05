@@ -2,7 +2,6 @@ package med.voll.api.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import med.voll.api.dto.AppointmentRequest;
 
 import java.time.LocalDateTime;
 
@@ -18,8 +17,12 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "patient_id")
     private Patient patient;
 
+    @ManyToOne
+    @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
     private LocalDateTime date;
