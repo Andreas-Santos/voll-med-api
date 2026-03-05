@@ -15,8 +15,8 @@ import med.voll.api.validator.Appointment.AppointmentValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AppointmentService {
@@ -34,28 +34,33 @@ public class AppointmentService {
     AppointmentRepository appointmentRepository;
 
     public void registerAppointment(AppointmentRequest request){
-        Optional<Patient> patientOptional = patientRepository.findById(request.patient());
-        if(patientOptional.isEmpty()) {
-            throw new PatientNotFoundException("Não existe paciente com esse id!");
-        }
+        Patient patient = patientRepository.findById(request.patient())
+                .orElseThrow(() -> new PatientNotFoundException("Não existe paciente com esse id!"));
 
-        if(patientOptional.get().getActive() == false) {
+        if(!patient.getActive()) {
             throw new PatientInactiveException("Paciente inativo!");
         }
 
-        Optional<Doctor> doctorOptional = doctorRepository.findById(request.doctor());
-        if(doctorOptional.isEmpty()) {
-            throw new DoctorNotFoundException("Não existe médico com esse id!");
+        Doctor doctor;
+
+        if(request.doctor() != null) {
+            doctor = doctorRepository.findById(request.doctor())
+                    .orElseThrow(() -> new DoctorNotFoundException("Não existe médico com esse id!"));
+        }
+        else {
+            LocalDateTime start = request.date();
+            LocalDateTime end = start.plusHours(1);
+
+            doctor = doctorRepository
+                    .findFirstAvailableDoctor(start, end)
+                    .orElseThrow(() -> new DoctorNotFoundException("Nenhum médico disponível nesse horário"));
         }
 
-        if(doctorOptional.get().getActive() == false) {
+        if(!doctor.getActive()) {
             throw new DoctorInactiveException("Médico inativo!");
         }
 
         validators.forEach(v -> v.validate(request));
-
-        Patient patient = patientOptional.get();
-        Doctor doctor = doctorOptional.get();
 
         appointmentRepository.save(new Appointment(patient, doctor, request.date()));
     }

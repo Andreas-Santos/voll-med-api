@@ -8,8 +8,7 @@ import java.time.LocalDateTime;
 public record AppointmentRequest(
         @NotNull(message = "O id do paciente é obrigatório!")
         Long patient,
-
-        @NotNull(message = "O id do médico é obrigatório!")
+        
         Long doctor,
 
         @NotBlank
