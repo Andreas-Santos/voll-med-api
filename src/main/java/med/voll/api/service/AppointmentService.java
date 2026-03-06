@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AppointmentService {
@@ -72,6 +71,12 @@ public class AppointmentService {
 
         if(appointment.getCanceled() == true) {
             throw new AppointmentAlreadyCanceledException("Essa consulta já foi cancelada!");
+        }
+
+        if(LocalDateTime.now().plusHours(24).isAfter(appointment.getDate())) {
+            throw new InvalidAppointmentDatetimeException(
+                    "Só é possível cancelar consultas com pelo menos 24 horas de antecedência!"
+            );
         }
 
         appointment.cancelAppointment(request);
