@@ -25,7 +25,13 @@ public class DoctorService {
         doctorRepository.save(doctor);
     }
 
-    public Page<DoctorDTO> getDoctors(Pageable pagination) {
+    public Page<DoctorDTO> getActiveDoctors(Pageable pagination) {
+        Page<Doctor> doctors = doctorRepository.findDoctorByActiveTrue(pagination);
+
+        return doctors.map(DoctorDTO::new);
+    }
+
+    public Page<DoctorDTO> getAllDoctors(Pageable pagination) {
         Page<Doctor> doctors = doctorRepository.findAll(pagination);
 
         return doctors.map(DoctorDTO::new);

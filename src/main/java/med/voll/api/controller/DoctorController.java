@@ -29,8 +29,13 @@ public class DoctorController {
     }
 
     @GetMapping
-    public Page<DoctorDTO> getDoctors(@PageableDefault(size = 10, sort = {"name"}) Pageable pagination) {
-        return doctorService.getDoctors(pagination);
+    public Page<DoctorDTO> getActiveDoctors(@PageableDefault(size = 10, sort = {"name"}) Pageable pagination) {
+        return doctorService.getActiveDoctors(pagination);
+    }
+
+    @GetMapping("/all")
+    public Page<DoctorDTO> getAllDoctors(@PageableDefault(size = 10, sort = {"name"}) Pageable pagination) {
+        return doctorService.getAllDoctors(pagination);
     }
 
     @PutMapping("/{id}")
