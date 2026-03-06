@@ -25,7 +25,13 @@ public class PatientService {
         patientRepository.save(patient);
     }
 
-    public Page<PatientDTO> getPatients(Pageable pagination) {
+    public Page<PatientDTO> getActivePatients(Pageable pagination) {
+        Page<Patient> patients = patientRepository.findPatientByActiveTrue(pagination);
+
+        return patients.map(PatientDTO::new);
+    }
+
+    public Page<PatientDTO> getAllPatients(Pageable pagination) {
         Page<Patient> patients = patientRepository.findAll(pagination);
 
         return patients.map(PatientDTO::new);
