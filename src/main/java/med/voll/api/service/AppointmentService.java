@@ -67,13 +67,8 @@ public class AppointmentService {
     }
 
     public void cancelAppointment(Long id, AppointmentCancelRequest request) {
-        Optional<Appointment> appointmentOptional = appointmentRepository.findById(id);
-
-        if(appointmentOptional.isEmpty()) {
-            throw new AppointmentNotFoundException("Não existe consulta com esse id!");
-        }
-
-        Appointment appointment = appointmentOptional.get();
+        Appointment appointment = appointmentRepository.findById(id)
+                .orElseThrow(() -> new AppointmentNotFoundException("Não existe consulta com esse id!"));
 
         if(appointment.getCanceled() == true) {
             throw new AppointmentAlreadyCanceledException("Essa consulta já foi cancelada!");

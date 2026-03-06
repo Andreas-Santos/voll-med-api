@@ -40,6 +40,10 @@ public class PatientService {
 
         Patient patient = patientOptional.get();
 
+        if(patient.getActive() == false) {
+            throw new PatientInactiveException("Esse paciente já foi excluído e não pode ser alterado!");
+        }
+
         patient.updatePatient(request);
 
         patientRepository.save(patient);

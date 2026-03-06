@@ -40,6 +40,10 @@ public class DoctorService {
 
         Doctor doctor = doctorOptional.get();
 
+        if(doctor.getActive() == false) {
+            throw new DoctorInactiveException("Esse médico já foi excluído e não pode ser alterado!");
+        }
+
         doctor.updateDoctor(request);
 
         doctorRepository.save(doctor);
