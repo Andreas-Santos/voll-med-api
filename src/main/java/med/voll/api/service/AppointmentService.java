@@ -1,6 +1,8 @@
 package med.voll.api.service;
 
 import med.voll.api.dto.Appointment.AppointmentCancelRequest;
+import med.voll.api.dto.Appointment.AppointmentDTO;
+import med.voll.api.dto.Appointment.AppointmentDetailDTO;
 import med.voll.api.dto.Appointment.AppointmentRequest;
 import med.voll.api.exception.*;
 import med.voll.api.model.Appointment;
@@ -11,6 +13,8 @@ import med.voll.api.repository.DoctorRepository;
 import med.voll.api.repository.PatientRepository;
 import med.voll.api.validator.Appointment.AppointmentValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -31,7 +35,7 @@ public class AppointmentService {
     @Autowired
     AppointmentRepository appointmentRepository;
 
-    public void registerAppointment(AppointmentRequest request){
+    public Appointment registerAppointment(AppointmentRequest request){
         Patient patient = patientRepository.findById(request.patient())
                 .orElseThrow(() -> new PatientNotFoundException("Não existe paciente com esse id!"));
 
@@ -62,7 +66,27 @@ public class AppointmentService {
 
         validators.forEach(v -> v.validate(request));
 
-        appointmentRepository.save(new Appointment(patient, doctor, request.date()));
+        Appointment appointment = new Appointment(patient, doctor, request.date());
+
+        appointmentRepository.save(appointment);
+
+        return appointment;
+    }
+
+    public Page<AppointmentDTO> getAppointments(Pageable pagination) {
+        Page<Appointment> appointments = appointmentRepository.findAll(pagination);
+
+        System.out.println(appointments);
+
+        return appointments.map(AppointmentDTO::new);
+    }
+
+    public AppointmentDetailDTO getAppointmentDetail(Long id) {
+        Appointment appointment = appointmentRepository
+                .findById(id)
+                .orElseThrow(() -> new AppointmentNotFoundException("Não existe consulta com esse id!"));
+
+        return new AppointmentDetailDTO(appointment);
     }
 
     public void cancelAppointment(Long id, AppointmentCancelRequest request) {
