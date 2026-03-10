@@ -30,20 +30,24 @@ public class DoctorController {
     }
 
     @GetMapping
-    public Page<DoctorDTO> getActiveDoctors(@PageableDefault(size = 10, sort = {"name"}) Pageable pagination) {
-        return doctorService.getActiveDoctors(pagination);
+    public ResponseEntity<Page<DoctorDTO>> getActiveDoctors(@PageableDefault(size = 10, sort = {"name"}) Pageable pagination) {
+        Page<DoctorDTO> pageDoctorDTO = doctorService.getActiveDoctors(pagination);
+
+        return ResponseEntity.status(HttpStatus.OK).body(pageDoctorDTO);
     }
 
     @GetMapping("/all")
-    public Page<DoctorDTO> getAllDoctors(@PageableDefault(size = 10, sort = {"name"}) Pageable pagination) {
-        return doctorService.getAllDoctors(pagination);
+    public ResponseEntity<Page<DoctorDTO>> getAllDoctors(@PageableDefault(size = 10, sort = {"name"}) Pageable pagination) {
+        Page<DoctorDTO> pageDoctorDTO = doctorService.getAllDoctors(pagination);
+
+        return ResponseEntity.status(HttpStatus.OK).body(pageDoctorDTO);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<DoctorDetailDTO> getDoctorDetail(@PathVariable Long id) {
         DoctorDetailDTO doctorDetailDTO = doctorService.getDoctorDetail(id);
 
-        return ResponseEntity.ok().body(doctorDetailDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(doctorDetailDTO);
     }
 
     @PutMapping("/{id}")
