@@ -6,6 +6,7 @@ import med.voll.api.dto.Doctor.DoctorDTO;
 import med.voll.api.dto.Doctor.DoctorDetailDTO;
 import med.voll.api.dto.Doctor.DoctorRequest;
 import med.voll.api.dto.Doctor.UpdateDoctorRequest;
+import med.voll.api.model.Doctor;
 import med.voll.api.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/doctors")
@@ -23,10 +25,14 @@ public class DoctorController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<String> registerDoctor(@RequestBody @Valid DoctorRequest request) {
-        doctorService.registerDoctor(request);
+    public ResponseEntity<DoctorDetailDTO> registerDoctor(
+            @RequestBody @Valid DoctorRequest request, UriComponentsBuilder uriBuilder
+    ) {
+        Doctor doctor = doctorService.registerDoctor(request);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("Médico cadastrado com sucesso!");
+        var uri = uriBuilder.path("/{id}").buildAndExpand(doctor.getId()).toUri();
+
+        return ResponseEntity.created(uri).body(new DoctorDetailDTO(doctor));
     }
 
     @GetMapping
@@ -52,10 +58,12 @@ public class DoctorController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<String> updateDoctor(@PathVariable Long id, @RequestBody UpdateDoctorRequest request) throws Exception {
-        doctorService.updateDoctor(id, request);
+    public ResponseEntity<DoctorDetailDTO> updateDoctor(
+            @PathVariable Long id, @RequestBody UpdateDoctorRequest request) throws Exception
+    {
+        Doctor doctor = doctorService.updateDoctor(id, request);
 
-        return ResponseEntity.status(HttpStatus.OK).body("Médico alterado com sucesso!");
+        return ResponseEntity.ok(new DoctorDetailDTO(doctor));
     }
 
     @DeleteMapping("/{id}")
@@ -63,6 +71,6 @@ public class DoctorController {
     public ResponseEntity<String> deleteDoctor(@PathVariable Long id) throws Exception {
         doctorService.deleteDoctor(id);
 
-        return ResponseEntity.status(HttpStatus.OK).body("Médico deletado com sucesso!");
+        return ResponseEntity.noContent().build();
     }
 }

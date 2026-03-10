@@ -13,17 +13,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class DoctorService {
     @Autowired
     DoctorRepository doctorRepository;
 
-    public void registerDoctor(DoctorRequest request) {
+    public Doctor registerDoctor(DoctorRequest request) {
         Doctor doctor = new Doctor(request);
 
         doctorRepository.save(doctor);
+
+        return doctor;
     }
 
     public Page<DoctorDTO> getActiveDoctors(Pageable pagination) {
@@ -46,14 +46,10 @@ public class DoctorService {
         return new DoctorDetailDTO(doctor);
     }
 
-    public void updateDoctor(Long id, UpdateDoctorRequest request) throws Exception {
-        Optional<Doctor> doctorOptional = doctorRepository.findById(id);
-
-        if(doctorOptional.isEmpty()) {
-            throw new DoctorNotFoundException("Não existe doutor com esse id!");
-        }
-
-        Doctor doctor = doctorOptional.get();
+    public Doctor updateDoctor(Long id, UpdateDoctorRequest request) throws Exception {
+        Doctor doctor = doctorRepository
+                .findById(id)
+                .orElseThrow(() -> new DoctorNotFoundException("Não existe médico com esse id!"));
 
         if(doctor.getActive() == false) {
             throw new DoctorInactiveException("Esse médico já foi excluído e não pode ser alterado!");
@@ -62,16 +58,14 @@ public class DoctorService {
         doctor.updateDoctor(request);
 
         doctorRepository.save(doctor);
+
+        return doctor;
     }
 
     public void deleteDoctor(Long id) throws Exception {
-        Optional<Doctor> doctorOptional = doctorRepository.findById(id);
-
-        if(doctorOptional.isEmpty()) {
-            throw new DoctorNotFoundException("Não existe doutor com esse id!");
-        }
-
-        Doctor doctor = doctorOptional.get();
+        Doctor doctor = doctorRepository
+                .findById(id)
+                .orElseThrow(() -> new DoctorNotFoundException("Não existe doutor com esse id!"));
 
         if(doctor.getActive() == false) {
             throw new DoctorInactiveException("Esse médico já foi excluído!");
