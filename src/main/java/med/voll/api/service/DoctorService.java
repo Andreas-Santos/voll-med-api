@@ -1,6 +1,7 @@
 package med.voll.api.service;
 
 import med.voll.api.dto.Doctor.DoctorDTO;
+import med.voll.api.dto.Doctor.DoctorDetailDTO;
 import med.voll.api.exception.DoctorInactiveException;
 import med.voll.api.exception.DoctorNotFoundException;
 import med.voll.api.model.Doctor;
@@ -35,6 +36,14 @@ public class DoctorService {
         Page<Doctor> doctors = doctorRepository.findAll(pagination);
 
         return doctors.map(DoctorDTO::new);
+    }
+
+    public DoctorDetailDTO getDoctorDetail(Long id) {
+        Doctor doctor = doctorRepository
+                .findById(id)
+                .orElseThrow(() -> new DoctorNotFoundException("Não existe doutor com esse id!"));
+
+        return new DoctorDetailDTO(doctor);
     }
 
     public void updateDoctor(Long id, UpdateDoctorRequest request) throws Exception {

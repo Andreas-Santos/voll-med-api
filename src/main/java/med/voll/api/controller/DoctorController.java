@@ -3,6 +3,7 @@ package med.voll.api.controller;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import med.voll.api.dto.Doctor.DoctorDTO;
+import med.voll.api.dto.Doctor.DoctorDetailDTO;
 import med.voll.api.dto.Doctor.DoctorRequest;
 import med.voll.api.dto.Doctor.UpdateDoctorRequest;
 import med.voll.api.service.DoctorService;
@@ -36,6 +37,13 @@ public class DoctorController {
     @GetMapping("/all")
     public Page<DoctorDTO> getAllDoctors(@PageableDefault(size = 10, sort = {"name"}) Pageable pagination) {
         return doctorService.getAllDoctors(pagination);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DoctorDetailDTO> getDoctorDetail(@PathVariable Long id) {
+        DoctorDetailDTO doctorDetailDTO = doctorService.getDoctorDetail(id);
+
+        return ResponseEntity.ok().body(doctorDetailDTO);
     }
 
     @PutMapping("/{id}")
