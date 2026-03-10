@@ -1,6 +1,9 @@
 package med.voll.api.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import med.voll.api.dto.Patient.PatientRequest;
 import med.voll.api.dto.Patient.UpdatePatientRequest;
@@ -17,14 +20,24 @@ public class Patient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     private String name;
+
+    @NotBlank
+    @Email
     private String email;
+
+    @NotBlank
     private String phone;
+
+    @NotBlank
     private String cpf;
+
     private Boolean active = true;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id")
+    @JoinColumn(name = "address_id", nullable = false)
+    @Valid
     private Address address;
 
     public Patient(PatientRequest request) {

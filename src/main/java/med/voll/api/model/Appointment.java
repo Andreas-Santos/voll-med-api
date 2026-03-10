@@ -1,6 +1,8 @@
 package med.voll.api.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import med.voll.api.dto.Appointment.AppointmentCancelRequest;
 
@@ -19,13 +21,14 @@ public class Appointment {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "patient_id")
+    @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;
 
     @ManyToOne
-    @JoinColumn(name = "doctor_id")
+    @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
 
+    @NotNull
     private LocalDateTime date;
 
     private Boolean canceled = false;

@@ -30,7 +30,7 @@ public class DoctorController {
     ) {
         Doctor doctor = doctorService.registerDoctor(request);
 
-        var uri = uriBuilder.path("/{id}").buildAndExpand(doctor.getId()).toUri();
+        var uri = uriBuilder.path("doctors/{id}").buildAndExpand(doctor.getId()).toUri();
 
         return ResponseEntity.created(uri).body(new DoctorDetailDTO(doctor));
     }

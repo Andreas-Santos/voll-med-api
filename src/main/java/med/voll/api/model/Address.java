@@ -1,6 +1,7 @@
 package med.voll.api.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,12 +19,23 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     private String streetAddress;
+
     private Integer number;
+
     private String additionalInformation;
+
+    @NotBlank
     private String neighborhood;
+
+    @NotBlank
     private String city;
+
+    @NotBlank
     private String state;
+
+    @NotBlank
     private String postalCode;
 
     public Address(AddressRequest request) {
