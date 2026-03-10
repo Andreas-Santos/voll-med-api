@@ -20,10 +20,12 @@ public class PatientService {
     @Autowired
     PatientRepository patientRepository;
 
-    public void registerPatient(PatientRequest request) {
+    public Patient registerPatient(PatientRequest request) {
         Patient patient = new Patient(request);
 
         patientRepository.save(patient);
+
+        return patient;
     }
 
     public Page<PatientDTO> getActivePatients(Pageable pagination) {
@@ -46,14 +48,10 @@ public class PatientService {
         return new PatientDetailDTO(patient);
     }
 
-    public void updatePatient(Long id, UpdatePatientRequest request) throws Exception {
-        Optional<Patient> patientOptional = patientRepository.findById(id);
-
-        if(patientOptional.isEmpty()) {
-            throw new PatientNotFoundException("Não existe paciente com esse id!");
-        }
-
-        Patient patient = patientOptional.get();
+    public Patient updatePatient(Long id, UpdatePatientRequest request) throws Exception {
+        Patient patient = patientRepository
+                .findById(id)
+                .orElseThrow(() -> new PatientNotFoundException("Não existe paciente com esse id!"));
 
         if(patient.getActive() == false) {
             throw new PatientInactiveException("Esse paciente já foi excluído e não pode ser alterado!");
@@ -62,21 +60,21 @@ public class PatientService {
         patient.updatePatient(request);
 
         patientRepository.save(patient);
+
+        return patient;
     }
 
-    public void deletePatient(Long id) throws Exception {
-        Optional<Patient> patientOptional = patientRepository.findById(id);
-
-        if(patientOptional.isEmpty()) {
-            throw new PatientNotFoundException("Não existe paciente com esse id!");
-        }
-
-        Patient patient = patientOptional.get();
+    public Patient deletePatient(Long id) throws Exception {
+        Patient patient = patientRepository
+                .findById(id)
+                .orElseThrow(() -> new PatientNotFoundException("Não existe paciente com esse id!"));
 
         if(patient.getActive() == false) {
             throw new PatientInactiveException("Esse paciente já foi excluído!");
         }
 
         patient.inactivatePatient();
+
+        return patient;
     }
 }
