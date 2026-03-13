@@ -1,6 +1,5 @@
 package med.voll.api.controller;
 
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import med.voll.api.dto.Appointment.AppointmentCancelRequest;
 import med.voll.api.dto.Appointment.AppointmentDTO;
@@ -27,7 +26,6 @@ public class AppointmentController {
     }
 
     @PostMapping
-    @Transactional
     public ResponseEntity<AppointmentDetailDTO> registerAppointment(
             @RequestBody @Valid AppointmentRequest request, UriComponentsBuilder uriBuilder) throws Exception {
         Appointment appointment = appointmentService.registerAppointment(request);
@@ -54,7 +52,6 @@ public class AppointmentController {
     }
 
     @DeleteMapping("/{id}")
-    @Transactional
     public ResponseEntity<String> cancelAppointment(
             @PathVariable Long id, @RequestBody @Valid AppointmentCancelRequest request)
     {

@@ -1,5 +1,6 @@
 package med.voll.api.service;
 
+import jakarta.transaction.Transactional;
 import med.voll.api.dto.Patient.PatientDTO;
 import med.voll.api.dto.Patient.PatientDetailDTO;
 import med.voll.api.exception.PatientInactiveException;
@@ -24,6 +25,7 @@ public class PatientService {
         this.patientRepository = patientRepository;
     }
 
+    @Transactional
     public Patient registerPatient(PatientRequest request) {
         Patient patient = new Patient(request);
 
@@ -52,12 +54,13 @@ public class PatientService {
         return new PatientDetailDTO(patient);
     }
 
+    @Transactional
     public Patient updatePatient(Long id, UpdatePatientRequest request) throws Exception {
         Patient patient = patientRepository
                 .findById(id)
                 .orElseThrow(() -> new PatientNotFoundException("Não existe paciente com esse id!"));
 
-        if(patient.getActive() == false) {
+        if(!patient.getActive()) {
             throw new PatientInactiveException("Esse paciente já foi excluído e não pode ser alterado!");
         }
 
@@ -68,12 +71,13 @@ public class PatientService {
         return patient;
     }
 
+    @Transactional
     public Patient deletePatient(Long id) throws Exception {
         Patient patient = patientRepository
                 .findById(id)
                 .orElseThrow(() -> new PatientNotFoundException("Não existe paciente com esse id!"));
 
-        if(patient.getActive() == false) {
+        if(!patient.getActive()) {
             throw new PatientInactiveException("Esse paciente já foi excluído!");
         }
 

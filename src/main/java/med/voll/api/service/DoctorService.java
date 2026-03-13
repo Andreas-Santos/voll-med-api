@@ -1,5 +1,6 @@
 package med.voll.api.service;
 
+import jakarta.transaction.Transactional;
 import med.voll.api.dto.Doctor.DoctorDTO;
 import med.voll.api.dto.Doctor.DoctorDetailDTO;
 import med.voll.api.exception.DoctorInactiveException;
@@ -8,7 +9,6 @@ import med.voll.api.model.Doctor;
 import med.voll.api.repository.DoctorRepository;
 import med.voll.api.dto.Doctor.DoctorRequest;
 import med.voll.api.dto.Doctor.UpdateDoctorRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -22,6 +22,7 @@ public class DoctorService {
         this.doctorRepository = doctorRepository;
     }
 
+    @Transactional
     public Doctor registerDoctor(DoctorRequest request) {
         Doctor doctor = new Doctor(request);
 
@@ -50,12 +51,13 @@ public class DoctorService {
         return new DoctorDetailDTO(doctor);
     }
 
+    @Transactional
     public Doctor updateDoctor(Long id, UpdateDoctorRequest request) throws Exception {
         Doctor doctor = doctorRepository
                 .findById(id)
                 .orElseThrow(() -> new DoctorNotFoundException("Não existe médico com esse id!"));
 
-        if(doctor.getActive() == false) {
+        if(!doctor.getActive()) {
             throw new DoctorInactiveException("Esse médico já foi excluído e não pode ser alterado!");
         }
 
@@ -66,12 +68,13 @@ public class DoctorService {
         return doctor;
     }
 
+    @Transactional
     public void deleteDoctor(Long id) throws Exception {
         Doctor doctor = doctorRepository
                 .findById(id)
                 .orElseThrow(() -> new DoctorNotFoundException("Não existe doutor com esse id!"));
 
-        if(doctor.getActive() == false) {
+        if(!doctor.getActive()) {
             throw new DoctorInactiveException("Esse médico já foi excluído!");
         }
 

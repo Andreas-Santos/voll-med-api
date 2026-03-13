@@ -1,6 +1,5 @@
 package med.voll.api.controller;
 
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import med.voll.api.dto.Doctor.DoctorDTO;
 import med.voll.api.dto.Doctor.DoctorDetailDTO;
@@ -8,7 +7,6 @@ import med.voll.api.dto.Doctor.DoctorRequest;
 import med.voll.api.dto.Doctor.UpdateDoctorRequest;
 import med.voll.api.model.Doctor;
 import med.voll.api.service.DoctorService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -28,7 +26,6 @@ public class DoctorController {
     }
 
     @PostMapping
-    @Transactional
     public ResponseEntity<DoctorDetailDTO> registerDoctor(
             @RequestBody @Valid DoctorRequest request, UriComponentsBuilder uriBuilder
     ) {
@@ -61,7 +58,6 @@ public class DoctorController {
     }
 
     @PutMapping("/{id}")
-    @Transactional
     public ResponseEntity<DoctorDetailDTO> updateDoctor(
             @PathVariable Long id, @RequestBody UpdateDoctorRequest request) throws Exception
     {
@@ -71,7 +67,6 @@ public class DoctorController {
     }
 
     @DeleteMapping("/{id}")
-    @Transactional
     public ResponseEntity<String> deleteDoctor(@PathVariable Long id) throws Exception {
         doctorService.deleteDoctor(id);
 

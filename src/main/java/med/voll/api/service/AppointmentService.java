@@ -1,5 +1,6 @@
 package med.voll.api.service;
 
+import jakarta.transaction.Transactional;
 import med.voll.api.dto.Appointment.AppointmentCancelRequest;
 import med.voll.api.dto.Appointment.AppointmentDTO;
 import med.voll.api.dto.Appointment.AppointmentDetailDTO;
@@ -37,6 +38,7 @@ public class AppointmentService {
         this.appointmentRepository = appointmentRepository;
     }
 
+    @Transactional
     public Appointment registerAppointment(AppointmentRequest request){
         Patient patient = patientRepository.findById(request.patient())
                 .orElseThrow(() -> new PatientNotFoundException("Não existe paciente com esse id!"));
@@ -53,7 +55,7 @@ public class AppointmentService {
         }
         else {
             LocalDateTime start = request.date().minusHours(1);
-            LocalDateTime end = start.plusHours(2);
+            LocalDateTime end = request.date().plusHours(1);
 
             doctor = doctorRepository
                     .findFirstAvailableDoctor(start, end)
@@ -78,8 +80,6 @@ public class AppointmentService {
     public Page<AppointmentDTO> getAppointments(Pageable pagination) {
         Page<Appointment> appointments = appointmentRepository.findAll(pagination);
 
-        System.out.println(appointments);
-
         return appointments.map(AppointmentDTO::new);
     }
 
@@ -91,11 +91,12 @@ public class AppointmentService {
         return new AppointmentDetailDTO(appointment);
     }
 
+    @Transactional
     public void cancelAppointment(Long id, AppointmentCancelRequest request) {
         Appointment appointment = appointmentRepository.findById(id)
                 .orElseThrow(() -> new AppointmentNotFoundException("Não existe consulta com esse id!"));
 
-        if(appointment.getCanceled() == true) {
+        if(appointment.getCanceled()) {
             throw new AppointmentAlreadyCanceledException("Essa consulta já foi cancelada!");
         }
 
