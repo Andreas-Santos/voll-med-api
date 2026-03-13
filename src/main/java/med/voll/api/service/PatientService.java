@@ -17,8 +17,12 @@ import java.util.Optional;
 
 @Service
 public class PatientService {
-    @Autowired
-    PatientRepository patientRepository;
+
+    private final PatientRepository patientRepository;
+
+    public PatientService(PatientRepository patientRepository) {
+        this.patientRepository = patientRepository;
+    }
 
     public Patient registerPatient(PatientRequest request) {
         Patient patient = new Patient(request);

@@ -10,8 +10,12 @@ import java.time.LocalDateTime;
 
 @Component
 public class AppointmentAtSameDateValidator implements AppointmentValidator {
-    @Autowired
-    AppointmentRepository appointmentRepository;
+
+    private final AppointmentRepository appointmentRepository;
+
+    public AppointmentAtSameDateValidator(AppointmentRepository appointmentRepository) {
+        this.appointmentRepository = appointmentRepository;
+    }
 
     @Override
     public void validate(AppointmentRequest request) {

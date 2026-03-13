@@ -1,6 +1,5 @@
 package med.voll.api.controller;
 
-import com.sun.net.httpserver.HttpsServer;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import med.voll.api.dto.Appointment.AppointmentCancelRequest;
@@ -9,7 +8,6 @@ import med.voll.api.dto.Appointment.AppointmentDetailDTO;
 import med.voll.api.dto.Appointment.AppointmentRequest;
 import med.voll.api.model.Appointment;
 import med.voll.api.service.AppointmentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -21,8 +19,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RestController
 @RequestMapping("appointments")
 public class AppointmentController {
-    @Autowired
-    AppointmentService appointmentService;
+
+    private final AppointmentService appointmentService;
+
+    public AppointmentController(AppointmentService appointmentService) {
+        this.appointmentService = appointmentService;
+    }
 
     @PostMapping
     @Transactional

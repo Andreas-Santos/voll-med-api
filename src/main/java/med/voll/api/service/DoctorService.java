@@ -15,8 +15,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DoctorService {
-    @Autowired
-    DoctorRepository doctorRepository;
+
+    private final DoctorRepository doctorRepository;
+
+    public DoctorService(DoctorRepository doctorRepository) {
+        this.doctorRepository = doctorRepository;
+    }
 
     public Doctor registerDoctor(DoctorRequest request) {
         Doctor doctor = new Doctor(request);

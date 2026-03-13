@@ -10,8 +10,12 @@ import java.time.LocalDateTime;
 
 @Component
 public class DoctorIsFreeValidator implements AppointmentValidator {
-    @Autowired
-    AppointmentRepository appointmentRepository;
+
+    private final AppointmentRepository appointmentRepository;
+
+    public DoctorIsFreeValidator(AppointmentRepository appointmentRepository) {
+        this.appointmentRepository = appointmentRepository;
+    }
 
     public void validate(AppointmentRequest request) {
         if (request.doctor() == null) {

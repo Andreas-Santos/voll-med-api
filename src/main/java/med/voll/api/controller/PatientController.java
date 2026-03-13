@@ -20,8 +20,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RestController
 @RequestMapping("/patients")
 public class PatientController {
-    @Autowired
-    PatientService patientService;
+
+    private final PatientService patientService;
+
+    public PatientController(PatientService patientService) {
+        this.patientService = patientService;
+    }
 
     @PostMapping
     @Transactional

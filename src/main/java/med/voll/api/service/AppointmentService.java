@@ -12,7 +12,6 @@ import med.voll.api.repository.AppointmentRepository;
 import med.voll.api.repository.DoctorRepository;
 import med.voll.api.repository.PatientRepository;
 import med.voll.api.validator.Appointment.AppointmentValidator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,17 +22,20 @@ import java.util.List;
 @Service
 public class AppointmentService {
 
-    @Autowired
-    List<AppointmentValidator> validators;
+    private final List<AppointmentValidator> validators;
 
-    @Autowired
-    DoctorRepository doctorRepository;
+    private final DoctorRepository doctorRepository;
 
-    @Autowired
-    PatientRepository patientRepository;
+    private final PatientRepository patientRepository;
 
-    @Autowired
-    AppointmentRepository appointmentRepository;
+    private final AppointmentRepository appointmentRepository;
+
+    public AppointmentService(List<AppointmentValidator> validators, DoctorRepository doctorRepository, PatientRepository patientRepository, AppointmentRepository appointmentRepository) {
+        this.validators = validators;
+        this.doctorRepository = doctorRepository;
+        this.patientRepository = patientRepository;
+        this.appointmentRepository = appointmentRepository;
+    }
 
     public Appointment registerAppointment(AppointmentRequest request){
         Patient patient = patientRepository.findById(request.patient())
